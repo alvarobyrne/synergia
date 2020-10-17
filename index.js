@@ -9,6 +9,8 @@ var a=0;
 const outport = 41234;
 sendHeartbeat = function() {
     const p = 1+perlin.noise.perlin2(1, a);
+    const q = 1+perlin.noise.perlin2(3, a);
+    console.log('q: ', q);
     console.log('p: ', p);
     a+=0.1;
     var buf;
@@ -18,10 +20,14 @@ sendHeartbeat = function() {
         {
           type: "float",
           value: p
+        },
+        {
+          type: "float",
+          value: q
         }
       ]
     });
     return udp.send(buf, 0, buf.length, outport, "localhost");
   };
    
-  setInterval(sendHeartbeat, 200);
+  setInterval(sendHeartbeat, 100);

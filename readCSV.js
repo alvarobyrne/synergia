@@ -4,12 +4,13 @@ const udp = dgram.createSocket("udp4");
 const osc = require('osc-min');
 // console.log('perlin: ', perlin);
 const fs = require('fs');
-const dataString = fs.readFileSync("data.csv",'utf8');
+const args = process.argv;
+const fileName = args[2];
+const dataString = fs.readFileSync(fileName,'utf8');
 // console.log('dataString: ', dataString);
 const dataSplitted = dataString.split('\n');
 // console.log('dataSplitted: ', dataSplitted);
 var data = dataSplitted.map(row => row.split(',').map(f=>+f));
-console.log('data: ', data);
 var a=0;
 const outport = 41234;
 sendHeartbeat = function() {

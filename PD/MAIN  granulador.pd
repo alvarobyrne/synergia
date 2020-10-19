@@ -1,15 +1,15 @@
-#N canvas 122 121 1470 976 10;
+#N canvas 432 47 1470 976 10;
 #X obj 783 16 s 1-zample_number;
 #X obj 710 14 tgl 20 1 gran1-mute empty empty 0 -6 0 8 -258699 -1 -1
 1 1;
 #X obj 739 16 vsl 20 96 -100 20 0 0 gran1gain empty empty 5 12 0 12
--44926 -1 -1 5700 1;
+-44926 -1 -1 5400 1;
 #X obj 774 38 hsl 100 15 2 200 1 1 1-zample_envelope_min empty envelope
-6 7 0 8 -262144 -1 -1 7500 1;
+6 7 0 8 -262144 -1 -1 5300 1;
 #X obj 882 38 nbx 5 14 0 50 0 1 1-zample_envelope_sprd empty range
 60 8 0 10 -262144 -1 -1 17 256;
 #X obj 774 59 hsl 100 15 1 5000 1 1 1-zample_sustain_min empty length
-6 7 0 8 -262144 -1 -1 7800 1;
+6 7 0 8 -262144 -1 -1 6300 1;
 #X obj 882 60 nbx 5 14 0 100 0 1 1-zample_sustain_sprd empty range
 60 8 0 10 -262144 -1 -1 16 256;
 #X obj 774 80 hsl 100 15 0 100 0 1 1-zample_gain_min 20-midi gain 6
@@ -25,13 +25,13 @@
 #X obj 774 119 hsl 100 15 99 0 0 1 1-zample_asynch empty asynch 15
 9 0 8 -262144 -1 -1 7300 1;
 #X obj 771 16 hradio 15 1 1 8 empty empty sample_number 20 7 0 8 -262144
--1 -1 2;
+-1 -1 1;
 #X obj 1408 659 nbx 5 14 0 10000 0 1 readspread empty grain_spread
 60 7 0 10 -262144 -1 -1 10 256;
 #X obj 989 12 tgl 20 1 rev-mute empty empty 0 -6 0 8 -258699 -1 -1
 1 1;
 #X obj 1018 14 vsl 20 96 -100 20 0 0 reverbgain empty empty 5 12 0
-12 -44926 -1 -1 6600 1;
+12 -44926 -1 -1 5100 1;
 #X obj 1054 13 hsl 100 15 0 99 0 1 reverb_room empty room_size 6 7
 0 8 -262144 -1 -1 6800 1;
 #X obj 1054 36 hsl 100 15 0 100 0 1 reverb_damp empty damping 6 7 0
@@ -41,11 +41,11 @@
 #X obj 1054 98 hsl 100 15 0 127 0 1 reverb_width empty stereo_width
 6 7 0 8 -262144 -1 -1 5200 1;
 #X obj 1408 596 nbx 5 14 -1e+037 1e+037 0 0 readpositionin tableloc
-scan_target 60 7 0 10 -62784 -1 -1 793 256;
+scan_target 60 7 0 10 -62784 -1 -1 502 256;
 #X obj 1408 618 nbx 6 14 -1e+037 1e+037 0 0 empty scan_speed scan_interpolation
-60 7 0 10 -62784 -1 -1 3600 256;
+60 7 0 10 -62784 -1 -1 4800 256;
 #X obj 1408 679 nbx 5 14 0 10000 0 0 empty ave_g_length ave_grain_length
-60 7 0 10 -62784 -1 -1 951.976 256;
+60 7 0 10 -62784 -1 -1 272.959 256;
 #N canvas 0 0 450 300 cpu 0;
 #X obj 124 253 outlet;
 #X obj 118 168 cputime;
@@ -398,8 +398,8 @@ scan_target 60 7 0 10 -62784 -1 -1 793 256;
 #X obj 774 139 hsl 100 15 0 500 0 1 jitter empty jitter 15 9 0 8 -262144
 -1 -1 6400 1;
 #X obj 1408 640 nbx 5 14 -1e+037 1e+037 0 0 empty 1-zample_start_min
-current_position 60 7 0 10 -62784 -1 -1 809.577 256;
-#X obj 60 396 grid grid1 440 0 1000 125 1 10000 1 1 1 30 20 409 476
+current_position 60 7 0 10 -62784 -1 -1 486.295 256;
+#X obj 60 396 grid grid1 440 0 1000 125 1 10000 1 1 1 30 20 281 461
 ;
 #N canvas 553 214 692 396 table_locator 0;
 #X obj 229 18 inlet;
@@ -567,7 +567,7 @@ in learning more.;
 #X floatatom 936 -68 4 0 9 0 - - -;
 #X obj 1282 -35 keyup;
 #X obj 1233 36 sel 97 115 100 102 103;
-#X obj 1195 95 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 1195 95 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 1280 102 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
 0 1;
@@ -576,7 +576,7 @@ in learning more.;
 #X obj 1349 138 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
 0 1;
 #X obj 1226 100 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
-0 1;
+1 1;
 #X floatatom 81 617 5 0 0 0 - - -;
 #X obj 1083 217 unpack f f s;
 #X msg 992 188 103 62 s;
@@ -614,7 +614,8 @@ in learning more.;
 ;
 #X obj 163 72 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X text 13 -52 AQUÍ SE CARGAN LOS AUDIOS;
+#X text -11 -51 AQUÍ SE CARGAN LOS AUDIOS;
+#X text 314 -27 ruteo de datos OSC hunk;
 #X connect 13 0 0 0;
 #X connect 24 0 26 0;
 #X connect 32 0 33 0;

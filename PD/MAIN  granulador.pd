@@ -1,0 +1,696 @@
+#N canvas 122 121 1470 976 10;
+#X obj 783 16 s 1-zample_number;
+#X obj 710 14 tgl 20 1 gran1-mute empty empty 0 -6 0 8 -258699 -1 -1
+1 1;
+#X obj 739 16 vsl 20 96 -100 20 0 0 gran1gain empty empty 5 12 0 12
+-44926 -1 -1 5700 1;
+#X obj 774 38 hsl 100 15 2 200 1 1 1-zample_envelope_min empty envelope
+6 7 0 8 -262144 -1 -1 7500 1;
+#X obj 882 38 nbx 5 14 0 50 0 1 1-zample_envelope_sprd empty range
+60 8 0 10 -262144 -1 -1 17 256;
+#X obj 774 59 hsl 100 15 1 5000 1 1 1-zample_sustain_min empty length
+6 7 0 8 -262144 -1 -1 7800 1;
+#X obj 882 60 nbx 5 14 0 100 0 1 1-zample_sustain_sprd empty range
+60 8 0 10 -262144 -1 -1 16 256;
+#X obj 774 80 hsl 100 15 0 100 0 1 1-zample_gain_min 20-midi gain 6
+7 0 8 -262144 -1 -1 7100 1;
+#X obj 882 81 nbx 5 14 0 100 0 1 1-zample_gain_sprd empty range 60
+8 0 10 -262144 -1 -1 10 256;
+#X obj 774 100 hsl 100 15 0 100 0 1 1-zample_pan_sprd empty stereo_spread
+6 7 0 8 -262144 -1 -1 4500 1;
+#X obj 885 100 hsl 75 15 0 120 0 1 gran1pan empty pan 1 8 0 8 -262144
+-1 -1 3400 1;
+#X obj 885 119 hsl 75 15 1 32 0 1 1-zample_voices empty vox 15 9 0
+8 -262144 -1 -1 4300 1;
+#X obj 774 119 hsl 100 15 99 0 0 1 1-zample_asynch empty asynch 15
+9 0 8 -262144 -1 -1 7300 1;
+#X obj 771 16 hradio 15 1 1 8 empty empty sample_number 20 7 0 8 -262144
+-1 -1 2;
+#X obj 1408 659 nbx 5 14 0 10000 0 1 readspread empty grain_spread
+60 7 0 10 -262144 -1 -1 10 256;
+#X obj 989 12 tgl 20 1 rev-mute empty empty 0 -6 0 8 -258699 -1 -1
+1 1;
+#X obj 1018 14 vsl 20 96 -100 20 0 0 reverbgain empty empty 5 12 0
+12 -44926 -1 -1 6600 1;
+#X obj 1054 13 hsl 100 15 0 99 0 1 reverb_room empty room_size 6 7
+0 8 -262144 -1 -1 6800 1;
+#X obj 1054 36 hsl 100 15 0 100 0 1 reverb_damp empty damping 6 7 0
+8 -262144 -1 -1 6100 1;
+#X obj 1054 78 hsl 100 15 0 100 0 1 reverb_wetdry empty dry/wet 6 7
+0 8 -262144 -1 -1 2700 1;
+#X obj 1054 98 hsl 100 15 0 127 0 1 reverb_width empty stereo_width
+6 7 0 8 -262144 -1 -1 5200 1;
+#X obj 1408 596 nbx 5 14 -1e+037 1e+037 0 0 readpositionin tableloc
+scan_target 60 7 0 10 -62784 -1 -1 793 256;
+#X obj 1408 618 nbx 6 14 -1e+037 1e+037 0 0 empty scan_speed scan_interpolation
+60 7 0 10 -62784 -1 -1 3600 256;
+#X obj 1408 679 nbx 5 14 0 10000 0 0 empty ave_g_length ave_grain_length
+60 7 0 10 -62784 -1 -1 951.976 256;
+#N canvas 0 0 450 300 cpu 0;
+#X obj 124 253 outlet;
+#X obj 118 168 cputime;
+#X obj 118 28 loadbang;
+#X obj 118 112 metro 1000;
+#X msg 118 56 1;
+#X floatatom 118 84 0 0 0 0 - - -;
+#X obj 118 140 t b b;
+#X obj 118 228 * 0.1;
+#X obj 118 197 int;
+#X text 163 84 <-- on/off;
+#X connect 1 0 8 0;
+#X connect 2 0 4 0;
+#X connect 3 0 6 0;
+#X connect 4 0 5 0;
+#X connect 5 0 3 0;
+#X connect 6 0 1 0;
+#X connect 6 1 1 1;
+#X connect 7 0 0 0;
+#X connect 8 0 7 0;
+#X restore 1412 727 pd cpu;
+#N canvas 44 53 456 494 guts 0;
+#X obj 185 285 r gran1gain;
+#X obj 185 347 pack 0 50;
+#X obj 187 207 pack 0 50;
+#X obj 175 77 * -1;
+#X obj 211 26 r gran1pan;
+#X obj 187 186 r gran1-mute;
+#X obj 185 306 + 100;
+#X obj 185 326 dbtorms;
+#X obj 152 460 dac~;
+#N canvas 7 176 560 429 scanner 0;
+#X obj 136 19 r readspread;
+#X obj 136 110 s 1-zample_start_sprd;
+#X obj 136 47 / 100;
+#X obj 318 16 r 1-zample_envelope_min;
+#X obj 358 54 r 1-zample_sustain_min;
+#X obj 318 55 * 2;
+#X obj -1 171 random_range 0 0;
+#X obj 52 104 * -1;
+#X obj -1 216 line;
+#X obj -1 265 +;
+#X obj -1 295 s 1-zample_start_min;
+#X obj 52 74 / 10;
+#X obj 52 47 r jitter;
+#X obj -1 138 metro 100;
+#X obj -1 194 pack 0 5;
+#X obj 15 19 r readpositionout;
+#X obj 318 148 f;
+#X obj 358 148 f;
+#X obj 358 117 t b f;
+#X obj 318 117 t b f;
+#X obj 318 170 +;
+#X obj 318 192 s ave_g_length;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X connect 3 0 5 0;
+#X connect 4 0 18 0;
+#X connect 5 0 19 0;
+#X connect 6 0 14 0;
+#X connect 7 0 6 1;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 11 0 7 0;
+#X connect 11 0 6 2;
+#X connect 12 0 11 0;
+#X connect 13 0 6 0;
+#X connect 14 0 8 0;
+#X connect 15 0 9 1;
+#X connect 15 0 13 0;
+#X connect 16 0 20 0;
+#X connect 17 0 20 1;
+#X connect 18 0 17 0;
+#X connect 18 0 16 0;
+#X connect 18 1 17 1;
+#X connect 19 0 17 0;
+#X connect 19 0 16 0;
+#X connect 19 1 16 1;
+#X connect 20 0 21 0;
+#X restore 72 3 pd scanner;
+#N canvas 90 40 1009 673 reverb 0;
+#X obj 192 338 r reverbgain;
+#X obj 199 149 / 100;
+#X obj 190 105 / 100;
+#X obj 180 63 / 100;
+#X obj 436 66 * -1;
+#X obj 357 21 r reverb_wetdry;
+#X obj 180 43 r reverb_room;
+#X obj 190 85 r reverb_damp;
+#X obj 199 128 r reverb_width;
+#X obj 192 398 pack 0 50;
+#X obj 193 259 pack 0 50;
+#X obj 193 235 r rev-mute;
+#X obj 357 88 pack 0 100;
+#X obj 436 87 pack 0 100;
+#X obj 357 108 line;
+#X obj 436 108 line;
+#X obj 143 1 inlet~;
+#X obj 170 23 inlet~;
+#X obj 143 516 outlet~;
+#X obj 257 518 outlet~;
+#X obj 192 358 + 100;
+#X obj 192 378 dbtorms;
+#X obj 193 281 line~;
+#X obj 192 417 line~;
+#X obj 160 472 *~;
+#X obj 272 472 *~;
+#X obj 271 310 *~;
+#X obj 161 310 *~;
+#X obj 436 46 - 100;
+#X obj 161 206 freeverb~;
+#X obj 143 493 +~;
+#X obj 257 496 +~;
+#X connect 0 0 20 0;
+#X connect 4 0 13 0;
+#X connect 5 0 12 0;
+#X connect 5 0 28 0;
+#X connect 6 0 3 0;
+#X connect 7 0 2 0;
+#X connect 8 0 1 0;
+#X connect 9 0 23 0;
+#X connect 10 0 22 0;
+#X connect 11 0 10 0;
+#X connect 12 0 14 0;
+#X connect 13 0 15 0;
+#X connect 16 0 29 0;
+#X connect 16 0 30 0;
+#X connect 17 0 29 1;
+#X connect 17 0 31 0;
+#X connect 20 0 21 0;
+#X connect 21 0 9 0;
+#X connect 22 0 26 1;
+#X connect 22 0 27 1;
+#X connect 23 0 24 1;
+#X connect 23 0 25 1;
+#X connect 24 0 30 1;
+#X connect 25 0 31 1;
+#X connect 26 0 25 0;
+#X connect 27 0 24 0;
+#X connect 28 0 4 0;
+#X connect 29 0 27 0;
+#X connect 29 1 26 0;
+#X connect 30 0 18 0;
+#X connect 31 0 19 0;
+#X restore 153 429 pd reverb;
+#X obj 187 228 line~;
+#X obj 155 257 *~;
+#X obj 276 256 *~;
+#X obj 185 367 line~;
+#X obj 154 396 *~;
+#X obj 275 396 *~;
+#X obj 291 98 pack 0 50;
+#X obj 211 51 / 100;
+#X obj 175 100 pack 0 50;
+#X obj 154 146 *~;
+#X obj 275 146 *~;
+#X obj 176 121 line~;
+#X obj 291 119 line~;
+#X obj 211 77 - 1;
+#X obj 153 3 filegranulator 1 1;
+#X connect 0 0 6 0;
+#X connect 1 0 14 0;
+#X connect 2 0 11 0;
+#X connect 3 0 19 0;
+#X connect 4 0 18 0;
+#X connect 5 0 2 0;
+#X connect 6 0 7 0;
+#X connect 7 0 1 0;
+#X connect 10 0 8 0;
+#X connect 10 1 8 1;
+#X connect 11 0 12 1;
+#X connect 11 0 13 1;
+#X connect 12 0 15 0;
+#X connect 13 0 16 0;
+#X connect 14 0 15 1;
+#X connect 14 0 16 1;
+#X connect 15 0 10 0;
+#X connect 16 0 10 1;
+#X connect 17 0 23 0;
+#X connect 18 0 24 0;
+#X connect 18 0 17 0;
+#X connect 19 0 22 0;
+#X connect 20 0 12 0;
+#X connect 21 0 13 0;
+#X connect 22 0 20 1;
+#X connect 23 0 21 1;
+#X connect 24 0 3 0;
+#X connect 25 0 20 0;
+#X connect 25 1 21 0;
+#X restore 1414 558 pd guts;
+#X obj 1412 749 nbx 5 14 -1e+037 1e+037 0 0 empty empty empty 0 -6
+0 10 -258699 -1 -1 0 256;
+#X text 376 585 x 1;
+#X obj 44 -20 cnv 15 51 16 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 768 50 450 300 load 0;
+#X msg -35 24 bang;
+#N canvas 540 369 450 300 zample-loader1 0;
+#X obj 72 78 inlet;
+#X obj 71 110 openpanel;
+#X obj 71 195 soundfiler;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array 1-zample 2.9404e+006 float 0;
+#X coords 0 1 2.9404e+006 -1 120 30 1;
+#X restore 130 134 graph;
+#X obj 71 251 s 1-zample_size;
+#X msg 81 216 \; 1-zample resize \$1;
+#X msg 71 173 read -resize -maxsize 1e+007 \$1 1-zample;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 5 0;
+#X connect 2 0 4 0;
+#X connect 6 0 2 0;
+#X restore 41 126 pd zample-loader1;
+#N canvas 192 190 450 300 zample-loader2 0;
+#X obj 72 78 inlet;
+#X obj 71 110 openpanel;
+#X obj 71 195 soundfiler;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array 2-zample 2.5922e+006 float 0;
+#X coords 0 1 2.5922e+006 -1 120 30 1;
+#X restore 130 134 graph;
+#X msg 81 216 \; 2-zample resize \$1;
+#X obj 71 251 s 2-zample_size;
+#X msg 71 173 read -resize -maxsize 1e+007 \$1 2-zample;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 4 0;
+#X connect 2 0 5 0;
+#X connect 6 0 2 0;
+#X restore 42 148 pd zample-loader2;
+#N canvas 0 0 450 300 zample-loader3 0;
+#X obj 72 78 inlet;
+#X obj 71 110 openpanel;
+#X obj 71 195 soundfiler;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array 3-zample 2.84451e+006 float 0;
+#X coords 0 1 2.84451e+006 -1 120 30 1;
+#X restore 130 134 graph;
+#X msg 81 216 \; 3-zample resize \$1;
+#X obj 71 251 s 3-zample_size;
+#X msg 71 173 read -resize -maxsize 1e+007 \$1 3-zample;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 4 0;
+#X connect 2 0 5 0;
+#X connect 6 0 2 0;
+#X restore 171 126 pd zample-loader3;
+#N canvas 0 0 450 300 zample-loader4 0;
+#X obj 72 78 inlet;
+#X obj 71 110 openpanel;
+#X obj 71 195 soundfiler;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array 4-zample 5.6448e+006 float 0;
+#X coords 0 1 5.6448e+006 -1 120 30 1;
+#X restore 130 134 graph;
+#X msg 81 216 \; 4-zample resize \$1;
+#X obj 71 251 s 4-zample_size;
+#X msg 71 173 read -resize -maxsize 1e+007 \$1 4-zample;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 4 0;
+#X connect 2 0 5 0;
+#X connect 6 0 2 0;
+#X restore 172 148 pd zample-loader4;
+#N canvas 0 0 450 300 zample-loader5 0;
+#X obj 72 78 inlet;
+#X obj 71 110 openpanel;
+#X obj 71 195 soundfiler;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array 5-zample 5.6448e+006 float 0;
+#X coords 0 1 5.6448e+006 -1 120 30 1;
+#X restore 130 134 graph;
+#X msg 81 216 \; 5-zample resize \$1;
+#X obj 71 251 s 5-zample_size;
+#X msg 71 173 read -resize -maxsize 1e+007 \$1 5-zample;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 4 0;
+#X connect 2 0 5 0;
+#X connect 6 0 2 0;
+#X restore 41 176 pd zample-loader5;
+#N canvas 0 0 450 300 zample-loader6 0;
+#X obj 72 78 inlet;
+#X obj 71 110 openpanel;
+#X obj 71 195 soundfiler;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array 6-zample 2.84451e+006 float 0;
+#X coords 0 1 2.84451e+006 -1 120 30 1;
+#X restore 130 134 graph;
+#X msg 81 216 \; 6-zample resize \$1;
+#X obj 71 251 s 6-zample_size;
+#X msg 71 173 read -resize -maxsize 1e+007 \$1 6-zample;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 4 0;
+#X connect 2 0 5 0;
+#X connect 6 0 2 0;
+#X restore 41 199 pd zample-loader6;
+#N canvas 0 0 450 300 zample-loader8 0;
+#X obj 72 78 inlet;
+#X obj 71 110 openpanel;
+#X obj 71 195 soundfiler;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array 8-zample 2.84451e+006 float 0;
+#X coords 0 1 2.84451e+006 -1 120 30 1;
+#X restore 130 134 graph;
+#X msg 81 216 \; 8-zample resize \$1;
+#X obj 71 251 s 8-zample_size;
+#X msg 71 173 read -resize -maxsize 1e+007 \$1 8-zample;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 4 0;
+#X connect 2 0 5 0;
+#X connect 6 0 2 0;
+#X restore 171 199 pd zample-loader8;
+#X msg -24 93 bang;
+#X msg 190 66 bang;
+#X msg 343 141 bang;
+#X msg -79 140 bang;
+#X msg -61 221 bang;
+#X msg 116 235 bang;
+#X msg 224 243 bang;
+#N canvas 0 0 450 300 zample-loader7 0;
+#X obj 72 78 inlet;
+#X obj 71 110 openpanel;
+#X obj 71 195 soundfiler;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array 7-zample 2.84451e+006 float 0;
+#X coords 0 1 2.84451e+006 -1 120 30 1;
+#X restore 130 134 graph;
+#X msg 81 216 \; 7-zample resize \$1;
+#X obj 71 251 s 7-zample_size;
+#X msg 71 173 read -resize -maxsize 1e+007 \$1 7-zample;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 2 0 4 0;
+#X connect 2 0 5 0;
+#X connect 6 0 2 0;
+#X restore 171 176 pd zample-loader7;
+#X connect 0 0 1 0;
+#X connect 8 0 2 0;
+#X connect 9 0 3 0;
+#X connect 10 0 4 0;
+#X connect 11 0 5 0;
+#X connect 12 0 6 0;
+#X connect 13 0 15 0;
+#X connect 14 0 7 0;
+#X restore 44 -20 pd load;
+#X obj 774 139 hsl 100 15 0 500 0 1 jitter empty jitter 15 9 0 8 -262144
+-1 -1 6400 1;
+#X obj 1408 640 nbx 5 14 -1e+037 1e+037 0 0 empty 1-zample_start_min
+current_position 60 7 0 10 -62784 -1 -1 809.577 256;
+#X obj 60 396 grid grid1 440 0 1000 125 1 10000 1 1 1 30 20 409 476
+;
+#N canvas 553 214 692 396 table_locator 0;
+#X obj 229 18 inlet;
+#X obj 229 47 select 0;
+#X obj 299 47 select 1;
+#X obj 363 45 select 2;
+#X msg 229 70 1;
+#X msg 299 70 10;
+#X msg 363 67 100;
+#X obj 229 114 line;
+#X obj 229 92 pack 0 100;
+#X obj -44 18 inlet;
+#X obj 170 16 inlet;
+#X obj -60 223 line;
+#X obj 170 152 *;
+#X obj -60 203 pack 0 0;
+#X obj 170 175 t b f;
+#X obj -60 177 f;
+#X obj 170 244 s scan_speed;
+#X obj -60 246 s readpositionout;
+#X obj -9 275 s tableloc;
+#X text -72 -3 x coordinates = read position;
+#X text -4 225 range = 0-1000;
+#X text 158 -3 y coordinates = scan speed interpolation;
+#X text 181 221 range = 0-10000;
+#X text 130 306 If you do not have the Grid object \, you can hack
+this subpatch to control Particlechamber.;
+#X connect 0 0 1 0;
+#X connect 0 0 2 0;
+#X connect 0 0 3 0;
+#X connect 1 0 4 0;
+#X connect 2 0 5 0;
+#X connect 3 0 6 0;
+#X connect 4 0 8 0;
+#X connect 5 0 8 0;
+#X connect 6 0 8 0;
+#X connect 7 0 12 1;
+#X connect 8 0 7 0;
+#X connect 9 0 15 1;
+#X connect 9 0 18 0;
+#X connect 10 0 12 0;
+#X connect 11 0 17 0;
+#X connect 12 0 14 0;
+#X connect 12 0 16 0;
+#X connect 13 0 11 0;
+#X connect 14 0 15 0;
+#X connect 14 1 13 1;
+#X connect 15 0 13 0;
+#X restore 224 614 pd table_locator;
+#X obj 356 588 vradio 15 1 1 3 empty empty empty 0 -6 0 8 -262144 -1
+-1 0;
+#X text 376 603 x 10;
+#X text 376 617 x 100;
+#X text 417 588 gear-shift for;
+#X text 417 603 interpolation;
+#X text 417 617 speed;
+#N canvas 30 0 877 674 README 0;
+#X text 453 209 The freeverb~ external can be downloaded here: http://www.akustische-kunst.org/puredata/main.html
+;
+#X text 7 320 Operation of Particlechamber:;
+#X text 452 341 Asynch randomizes which grains are passed through \,
+from almost none to all. Vox activates or deactivates each of the 32
+voices. Grain_spread makes small adjustments in the read position \,
+which can be used to either add a reverb- or chorus-like effect \,
+or to completely time-smear a file. Jitter makes larger adjustments
+in the read position \, resulting in various degrees of time-scrambling.
+;
+#X text 453 441 The XY controller at the bottom determines the read
+position in the sample. This controller has an interpolation scale
+\, adjustable by the gear-shift on the right. This means that Particlechamber
+will scan more slowly or quickly through the file depending on the
+cursor's Y position multiplied by the interpolation factor.;
+#X text 278 6 Particlechamber by Derek Holzer [Umatic.nl];
+#X text 241 565 Particlechamber is free software and comes without
+any warrenty that it will do ANYTHING like what I say it will. Enjoy
+it all the same.;
+#X text 535 623 derek@umatic.nl;
+#X text 28 398 The red buttons mute and unmute the file granulator
+and the reverb. The large vertical sliders are gain for each section.
+The reverb is post-fader from the file granulator \, and can be bypassed
+either by muting it or with the wet/dry slider.;
+#X text 29 341 Open the Load subpatch and click the bangs to load samples.
+It is better to do this before you start playing \, because loading
+soundfiles can cause audible glitches in PD's performance. Sorry...
+;
+#X text 28 468 The envelope is a linear ramp \, so a length of 0 means
+a pure triangular "window" for each grain. [(envelope x 2)+ length=
+average grain length in ms]. Stereo_spread randomly pans each grain
+to a wider or lesser field. The range feature randomizes each parameter
+as a percentage plus or minus the given number.;
+#X text 453 137 It would be best to take Grid from the PD External
+Repository: http://pure-data.sourceforge.net;
+#X text 453 172 However \, Yves Degoyon's Grid external can also be
+found here: http://ydegoyon.free.fr/software.html;
+#X text 453 35 Particlechamber requires a few externals to run. It
+uses Freeverb~ for its reverb section [although you could easily replace
+it with another reverb] \, and uses Grid as a major GUI element [although
+you could hack your way around it if you can't install Grid by sending
+numbers directly to the table_locator subpatch. Look inside for details...]
+;
+#X text 7 36 Particlechamber is a 32-voice asynchronous granular synthesizer
+for real-time transformation of a soundfile. It is loosely based on
+the famous Travelizer instrument from Reaktor 3 \, however I think
+it's much better because it is FREE!;
+#X text 6 112 This abstraction can be used to time-stretch or -compress
+a soundfile \, although there are other tools [such as Frank Barknecht's
+Synchgrain object] which do this "nicer" \, but it's main strength
+is in generating clouds of sonic particles \, time-scrambling a file
+\, or creating abstract textures. If one does a bit of reverse engineering
+\, it can also be used as a tool for learning about the techniques
+of granular synthesis. I have left a subpatch inside the granreader
+subpatch where others can add their own grain-level events \, such
+as randomized or constant-Q filters or windowed envelopes \, to see
+what is possible with this technique. Of course \, I can only highly
+recommend Curtis Road's amazing book "Microsound" for those interested
+in learning more.;
+#X restore 674 291 pd README;
+#X text 854 -13 comment;
+#X text 536 807 comment;
+#X floatatom 839 224 5 0 0 0 - - -;
+#X floatatom 939 225 5 0 0 0 - - -;
+#X obj 768 254 pack f f;
+#X msg 689 253 goto \$1 \$2;
+#X msg 903 255 bang;
+#X text 881 256 X;
+#X text 690 235 Set position :;
+#X text 988 257 Y;
+#X floatatom 843 292 5 0 0 0 - - -;
+#X floatatom 943 293 5 0 0 0 - - -;
+#X obj 780 291 pack f f;
+#X msg 903 292 bang;
+#X text 887 292 X;
+#X text 991 293 Y;
+#X floatatom 885 328 5 0 0 0 - - -;
+#X floatatom 990 328 5 0 0 0 - - -;
+#X obj 822 325 pack f f;
+#X msg 950 326 bang;
+#X text 935 327 X;
+#X text 1036 328 Y;
+#X floatatom 860 363 5 0 0 0 - - -;
+#X floatatom 964 362 5 0 0 0 - - -;
+#X obj 797 360 pack f f;
+#X msg 925 361 bang;
+#X text 910 362 X;
+#X text 1013 363 Y;
+#X floatatom 896 396 5 0 0 0 - - -;
+#X floatatom 995 398 5 0 0 0 - - -;
+#X obj 829 395 pack f f;
+#X msg 957 396 bang;
+#X text 942 397 X;
+#X text 1042 397 Y;
+#X msg 689 290 values \$1 \$2;
+#X text 690 272 Set values :;
+#X text 688 307 Set deltas for values :;
+#X msg 690 324 valuemotion \$1 \$2;
+#X msg 690 359 xvalues \$1 \$2;
+#X text 691 342 Set values without changing output :;
+#X text 689 377 Set deltas for values without changing output:;
+#X msg 691 395 xvaluemotion \$1 \$2;
+#X msg 691 422 color 123 45 185;
+#X text 818 422 change bg color ( from alberto zin );
+#X obj 761 -44 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 936 -47 set \$1;
+#X floatatom 936 -68 4 0 9 0 - - -;
+#X obj 1282 -35 keyup;
+#X obj 1233 36 sel 97 115 100 102 103;
+#X obj 1195 95 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 1280 102 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
+0 1;
+#X obj 1317 137 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
+0 1;
+#X obj 1349 138 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
+0 1;
+#X obj 1226 100 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
+0 1;
+#X floatatom 81 617 5 0 0 0 - - -;
+#X obj 1083 217 unpack f f s;
+#X msg 992 188 103 62 s;
+#X msg 1122 166 51 111 s;
+#X msg 1227 168 376 101 s;
+#X msg 1087 143 221 65 s;
+#X msg 1262 209 211 34 s;
+#X msg 1161 335 \; 112 \, 112 \, 123 asdfss;
+#X obj 160 -10 print;
+#X obj 582 179 vsl 15 128 0 1.8 0 0 empty empty empty 0 -9 0 10 -4032
+-1 -1 0 1;
+#X floatatom 169 219 5 0 0 0 - - -;
+#X floatatom 210 214 5 0 0 0 - - -;
+#X obj 616 176 vsl 15 128 0 1.8 0 0 empty empty empty 0 -9 0 10 -4032
+-1 -1 0 1;
+#X obj 224 245 * 80;
+#X obj 166 247 * 250;
+#X obj 156 181 unpack s f f f;
+#X floatatom 247 208 5 0 0 0 - - -;
+#X obj 655 172 vsl 15 128 0 1.8 0 0 empty empty empty 0 -9 0 10 -4032
+-1 -1 0 1;
+#X obj 211 -34 dumpOSC 7400;
+#X obj 181 29 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 188 141 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 209 30 5 0 0 0 - - -;
+#X floatatom 201 78 5 0 0 0 - - -;
+#X floatatom 229 131 5 0 0 0 - - -;
+#X obj 206 -2 route /accelerometer/raw/x /accelerometer/raw/y /accelerometer/raw/z
+;
+#X obj 203 44 route /accelerometer/raw/y /accelerometer/raw/x /accelerometer/raw/z
+;
+#X obj 206 98 route /accelerometer/raw/z /accelerometer/raw/x /accelerometer/raw/y
+;
+#X obj 163 72 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 13 -52 AQUÍ SE CARGAN LOS AUDIOS;
+#X connect 13 0 0 0;
+#X connect 24 0 26 0;
+#X connect 32 0 33 0;
+#X connect 32 0 95 0;
+#X connect 32 1 33 1;
+#X connect 34 0 33 2;
+#X connect 43 0 45 0;
+#X connect 44 0 45 1;
+#X connect 44 0 47 0;
+#X connect 45 0 46 0;
+#X connect 46 0 32 0;
+#X connect 47 0 43 0;
+#X connect 51 0 53 0;
+#X connect 52 0 53 1;
+#X connect 52 0 54 0;
+#X connect 53 0 75 0;
+#X connect 54 0 51 0;
+#X connect 57 0 59 0;
+#X connect 58 0 59 1;
+#X connect 58 0 60 0;
+#X connect 59 0 78 0;
+#X connect 60 0 57 0;
+#X connect 63 0 65 0;
+#X connect 64 0 65 1;
+#X connect 64 0 66 0;
+#X connect 65 0 79 0;
+#X connect 66 0 63 0;
+#X connect 69 0 71 0;
+#X connect 70 0 71 1;
+#X connect 70 0 72 0;
+#X connect 71 0 82 0;
+#X connect 72 0 69 0;
+#X connect 75 0 32 0;
+#X connect 78 0 32 0;
+#X connect 79 0 32 0;
+#X connect 82 0 32 0;
+#X connect 83 0 32 0;
+#X connect 85 0 13 0;
+#X connect 86 0 13 0;
+#X connect 87 0 86 0;
+#X connect 88 0 89 0;
+#X connect 89 0 90 0;
+#X connect 89 1 94 0;
+#X connect 89 2 91 0;
+#X connect 89 3 92 0;
+#X connect 89 4 93 0;
+#X connect 90 0 97 0;
+#X connect 91 0 98 0;
+#X connect 92 0 99 0;
+#X connect 93 0 101 0;
+#X connect 94 0 100 0;
+#X connect 96 0 43 0;
+#X connect 96 1 44 0;
+#X connect 97 0 96 0;
+#X connect 98 0 96 0;
+#X connect 99 0 96 0;
+#X connect 100 0 96 0;
+#X connect 101 0 96 0;
+#X connect 105 0 109 0;
+#X connect 106 0 108 0;
+#X connect 108 0 45 1;
+#X connect 109 0 45 0;
+#X connect 110 1 105 0;
+#X connect 110 1 104 0;
+#X connect 110 2 106 0;
+#X connect 110 2 107 0;
+#X connect 110 3 111 0;
+#X connect 110 3 112 0;
+#X connect 113 0 110 0;
+#X connect 113 0 103 0;
+#X connect 113 0 119 0;
+#X connect 113 0 120 0;
+#X connect 113 0 121 0;
+#X connect 119 0 114 0;
+#X connect 119 0 116 0;
+#X connect 120 0 117 0;
+#X connect 120 0 122 0;
+#X connect 121 0 115 0;
+#X connect 121 0 118 0;

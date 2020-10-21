@@ -7,8 +7,11 @@ const fs = require('fs');
 const args = process.argv;
 const fileName = args[2];
 const rate = args[3];
+const isDebugging = args[3];
 if(!rate)
 rate=100;
+if(isDebugging===undefined||isDebugging===null)
+isDebugging=true;
 const dataString = fs.readFileSync(fileName,'utf8');
 // console.log('dataString: ', dataString);
 const dataSplitted = dataString.split('\n');
@@ -25,7 +28,8 @@ sendHeartbeat = function() {
     }
     var buf;
     const args = row.map(x=>{return{type:"float",value:x}});
-    console.log('args: ', args);
+    if(isDebugging)
+    console.log(args);
     buf = osc.toBuffer({
       address: "/heartbeat",
       args

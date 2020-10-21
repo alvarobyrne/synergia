@@ -28,8 +28,8 @@ sendHeartbeat = function() {
     }
     var buf;
     const args = row.map(x=>{return{type:"float",value:x}});
-    // if(isDebugging)
-    // console.log(args);
+    if(isDebugging)
+    console.log(args);
     buf = osc.toBuffer({
       address: "/heartbeat",
       args

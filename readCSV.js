@@ -6,6 +6,9 @@ const osc = require('osc-min');
 const fs = require('fs');
 const args = process.argv;
 const fileName = args[2];
+const rate = args[3];
+if(!rate)
+rate=100;
 const dataString = fs.readFileSync(fileName,'utf8');
 // console.log('dataString: ', dataString);
 const dataSplitted = dataString.split('\n');
@@ -30,4 +33,4 @@ sendHeartbeat = function() {
     return udp.send(buf, 0, buf.length, outport, "localhost");
   };
    
-  setInterval(sendHeartbeat, 100);
+setInterval(sendHeartbeat, rate);

@@ -6,8 +6,8 @@ const osc = require('osc-min');
 const fs = require('fs');
 const args = process.argv;
 const fileName = args[2];
-const rate = args[3];
-const isDebugging = args[3];
+let  rate = args[3];
+let isDebugging = args[4];
 if(!rate)
 rate=100;
 if(isDebugging===undefined||isDebugging===null)
@@ -28,8 +28,8 @@ sendHeartbeat = function() {
     }
     var buf;
     const args = row.map(x=>{return{type:"float",value:x}});
-    if(isDebugging)
-    console.log(args);
+    // if(isDebugging)
+    // console.log(args);
     buf = osc.toBuffer({
       address: "/heartbeat",
       args

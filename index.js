@@ -6,7 +6,15 @@ const osc = require('osc-min');
 
 const p2 = perlin.noise.perlin2(1, 1);
 var a=0;
-const outport = 41234;
+let outport; 
+const synergiaOutport = 41234;
+const hydraDefaultPort = 57101;
+const hydraExamplePort = 51000;
+const hydraAnotherPort = 3333;
+outport = synergiaOutport;
+outport = hydraDefaultPort;
+outport = hydraExamplePort;
+outport = hydraAnotherPort;
 sendHeartbeat = function() {
     const p = 1+perlin.noise.perlin2(1, a);
     const q = 1+perlin.noise.perlin2(3, a);
